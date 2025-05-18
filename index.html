@@ -1,0 +1,2055 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ultimate English Vocabulary Master</title>
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --secondary-color: #4cc9f0;
+            --success-color: #38b000;
+            --danger-color: #f72585;
+            --warning-color: #ff9e00;
+            --dark-color: #14213d;
+            --light-color: #f8f9fa;
+            --text-color: #212529;
+            --muted-color: #6c757d;
+            --border-color: #dee2e6;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+            --card-bg: #ffffff;
+            --game-bg: #f1faee;
+            --correct-bg: rgba(56, 176, 0, 0.1);
+            --incorrect-bg: rgba(247, 37, 133, 0.1);
+        }
+        
+        body {
+            font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+            background-color: var(--game-bg);
+            margin: 0;
+            padding: 20px;
+            color: var(--text-color);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .game-container {
+            width: 100%;
+            max-width: 900px;
+            margin: 20px auto;
+            background: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: 0 6px 18px var(--shadow-color);
+            padding: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        h1 {
+            color: var(--dark-color);
+            text-align: center;
+            margin: 0 0 15px 0;
+            font-size: 2.2rem;
+            font-weight: 700;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .game-description {
+            text-align: center;
+            color: var(--muted-color);
+            margin-bottom: 25px;
+            font-size: 1rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .game-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+            gap: 15px;
+        }
+        
+        .category-selector {
+            margin-bottom: 15px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .game-modes {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        
+        .mode-btn, .category-btn {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+            min-width: 100px;
+            text-align: center;
+            font-weight: 500;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .mode-btn:hover, .category-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+            opacity: 0.9;
+        }
+        
+        .mode-btn:active, .category-btn:active {
+            transform: translateY(0);
+        }
+        
+        .mode-btn.active, .category-btn.active {
+            background: var(--dark-color);
+            box-shadow: 0 0 0 2px var(--secondary-color);
+        }
+        
+        .game-area {
+            min-height: 350px;
+            border: 2px solid var(--border-color);
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 20px;
+            background: var(--card-bg);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        
+        .game-area:hover {
+            border-color: var(--primary-color);
+        }
+        
+        .word-display {
+            font-size: 2.2rem;
+            text-align: center;
+            margin: 15px 0;
+            color: var(--dark-color);
+            font-weight: 700;
+            word-break: break-word;
+            line-height: 1.2;
+        }
+        
+        .definition-display {
+            font-size: 1.2rem;
+            text-align: center;
+            margin: 15px 0;
+            color: var(--muted-color);
+            line-height: 1.5;
+        }
+        
+        .example-display {
+            font-size: 1rem;
+            text-align: center;
+            margin: 15px 0 0 0;
+            color: var(--muted-color);
+            font-style: italic;
+            padding: 12px;
+            background-color: rgba(67, 97, 238, 0.05);
+            border-radius: 8px;
+            border-left: 3px solid var(--primary-color);
+        }
+        
+        .controls {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .btn {
+            background: var(--secondary-color);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            min-width: 120px;
+            font-weight: 600;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+            opacity: 0.9;
+        }
+        
+        .btn:active {
+            transform: translateY(0);
+        }
+        
+        .btn-secondary {
+            background: var(--danger-color);
+        }
+        
+        .btn-tertiary {
+            background: var(--warning-color);
+        }
+        
+        .stats-container {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 25px;
+            font-size: 1rem;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .stat-box {
+            text-align: center;
+            padding: 12px;
+            min-width: 120px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .stat-box:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+        
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--dark-color);
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--muted-color);
+        }
+        
+        .progress-container {
+            width: 100%;
+            background-color: var(--light-color);
+            border-radius: 10px;
+            margin: 20px 0;
+            height: 12px;
+            overflow: hidden;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            border-radius: 10px;
+            width: 0%;
+            transition: width 0.5s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .progress-bar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(
+                90deg,
+                rgba(255, 255, 255, 0.1) 25%,
+                rgba(255, 255, 255, 0.3) 50%,
+                rgba(255, 255, 255, 0.1) 75%
+            );
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+        }
+        
+        .options-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 12px;
+            margin: 20px 0;
+        }
+        
+        .option-btn {
+            padding: 16px;
+            background: var(--card-bg);
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            font-size: 1rem;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+        
+        .option-btn:hover {
+            border-color: var(--primary-color);
+            transform: translateY(-3px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .option-btn.correct {
+            background: var(--success-color);
+            color: white;
+            border-color: var(--success-color);
+        }
+        
+        .option-btn.incorrect {
+            background: var(--danger-color);
+            color: white;
+            border-color: var(--danger-color);
+        }
+        
+        .input-answer {
+            width: 100%;
+            padding: 16px;
+            font-size: 1rem;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            margin: 20px 0;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+        
+        .input-answer:focus {
+            border-color: var(--primary-color);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+        }
+        
+        .feedback {
+            text-align: center;
+            margin: 15px 0;
+            font-weight: 600;
+            min-height: 24px;
+            font-size: 1.1rem;
+            padding: 12px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .correct-feedback {
+            color: var(--success-color);
+            background-color: var(--correct-bg);
+            border-left: 4px solid var(--success-color);
+        }
+        
+        .incorrect-feedback {
+            color: var(--danger-color);
+            background-color: var(--incorrect-bg);
+            border-left: 4px solid var(--danger-color);
+        }
+        
+        .hint-display {
+            text-align: center;
+            margin: 10px 0;
+            color: var(--primary-color);
+            font-style: italic;
+            padding: 10px;
+            background-color: rgba(67, 97, 238, 0.05);
+            border-radius: 8px;
+        }
+        
+        .match-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            gap: 20px;
+        }
+        
+        .match-column {
+            flex: 1;
+            min-width: 250px;
+        }
+        
+        .match-title {
+            text-align: center;
+            margin-bottom: 15px;
+            color: var(--dark-color);
+            font-weight: 600;
+            font-size: 1.1rem;
+            padding-bottom: 8px;
+            border-bottom: 2px solid var(--primary-color);
+        }
+        
+        .matches-made {
+            margin-top: 20px;
+            border-top: 1px dashed var(--border-color);
+            padding-top: 15px;
+        }
+        
+        .match-item {
+            background: white;
+            padding: 12px;
+            margin: 8px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .match-item::before {
+            content: '✓';
+            color: var(--success-color);
+            font-weight: bold;
+        }
+        
+        .difficulty-indicator {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: white;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .beginner-difficulty {
+            background-color: var(--success-color);
+        }
+        
+        .intermediate-difficulty {
+            background-color: var(--primary-color);
+        }
+        
+        .advanced-difficulty {
+            background-color: #7209b7;
+        }
+        
+        .business-difficulty {
+            background-color: var(--warning-color);
+        }
+        
+        .academic-difficulty {
+            background-color: #4895ef;
+        }
+        
+        .settings-btn {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--muted-color);
+            transition: all 0.3s ease;
+            padding: 5px;
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .settings-btn:hover {
+            background-color: rgba(0, 0, 0, 0.05);
+            color: var(--primary-color);
+            transform: rotate(30deg);
+        }
+        
+        .settings-panel {
+            display: none;
+            position: absolute;
+            top: 60px;
+            left: 20px;
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+            z-index: 10;
+            width: 280px;
+            border: 1px solid var(--border-color);
+        }
+        
+        .settings-panel h3 {
+            margin-top: 0;
+            margin-bottom: 15px;
+            color: var(--dark-color);
+            font-size: 1.2rem;
+            padding-bottom: 8px;
+            border-bottom: 2px solid var(--primary-color);
+        }
+        
+        .settings-option {
+            margin: 15px 0;
+        }
+        
+        .settings-option label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--dark-color);
+        }
+        
+        .settings-option select, .settings-option input {
+            width: 100%;
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+            background: var(--card-bg);
+            color: var(--text-color);
+            font-size: 0.9rem;
+        }
+        
+        .settings-option select:focus, .settings-option input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(67, 97, 238, 0.2);
+        }
+        
+        .settings-footer {
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            justify-content: flex-end;
+        }
+        
+        .settings-close-btn {
+            background: var(--danger-color);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+        
+        .icon {
+            width: 20px;
+            height: 20px;
+        }
+        
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: var(--primary-color);
+            opacity: 0;
+            z-index: 9999;
+        }
+        
+        .word-count {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 0.9rem;
+            color: var(--muted-color);
+            background: rgba(0, 0, 0, 0.05);
+            padding: 4px 8px;
+            border-radius: 12px;
+        }
+        
+        .timer-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 15px;
+        }
+        
+        .timer {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            background: rgba(67, 97, 238, 0.1);
+            padding: 8px 16px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .stats-summary {
+            margin-top: 30px;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .stats-summary h3 {
+            margin-top: 0;
+            color: var(--dark-color);
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 8px;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .stat-card {
+            background: var(--light-color);
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        
+        .stat-card-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 5px;
+        }
+        
+        .stat-card-label {
+            font-size: 0.9rem;
+            color: var(--muted-color);
+        }
+        
+        .achievement-badge {
+            display: inline-block;
+            background: var(--primary-color);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            margin-left: 8px;
+            animation: pulse 1.5s infinite;
+        }
+        
+        .word-history {
+            margin-top: 20px;
+            max-height: 200px;
+            overflow-y: auto;
+            padding: 10px;
+            background: var(--light-color);
+            border-radius: 8px;
+        }
+        
+        .history-item {
+            padding: 8px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .history-item:last-child {
+            border-bottom: none;
+        }
+        
+        .history-word {
+            font-weight: 500;
+        }
+        
+        .history-category {
+            font-size: 0.8rem;
+            color: var(--muted-color);
+        }
+        
+        @media (max-width: 768px) {
+            .game-container {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .options-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .match-container {
+                flex-direction: column;
+            }
+            
+            .word-display {
+                font-size: 1.8rem;
+            }
+            
+            .definition-display {
+                font-size: 1.1rem;
+            }
+            
+            .btn {
+                padding: 10px 16px;
+                min-width: 100px;
+                font-size: 0.9rem;
+            }
+            
+            .stat-box {
+                min-width: 100px;
+                padding: 10px;
+            }
+            
+            .stat-value {
+                font-size: 1.3rem;
+            }
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.5s ease forwards;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .pulse {
+            animation: pulse 1s ease infinite;
+        }
+        
+        @keyframes shimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+        
+        @keyframes confetti-fall {
+            0% { 
+                transform: translateY(-100px) rotate(0deg); 
+                opacity: 1;
+            }
+            100% { 
+                transform: translateY(1000px) rotate(360deg); 
+                opacity: 0;
+            }
+        }
+        
+        .confetti-animation {
+            animation: confetti-fall 3s linear forwards;
+        }
+        
+        /* Dark mode styles */
+        body.dark-mode {
+            --text-color: #f8f9fa;
+            --muted-color: #adb5bd;
+            --border-color: #495057;
+            --shadow-color: rgba(0, 0, 0, 0.3);
+            --card-bg: #212529;
+            --game-bg: #343a40;
+            --light-color: #495057;
+            --correct-bg: rgba(56, 176, 0, 0.2);
+            --incorrect-bg: rgba(247, 37, 133, 0.2);
+        }
+        
+        body.dark-mode .game-area {
+            border-color: #495057;
+            background-color: #2b3035;
+        }
+        
+        body.dark-mode .option-btn {
+            background-color: #343a40;
+            border-color: #495057;
+            color: #f8f9fa;
+        }
+        
+        body.dark-mode .input-answer {
+            background-color: #343a40;
+            border-color: #495057;
+            color: #f8f9fa;
+        }
+        
+        body.dark-mode .definition-display {
+            color: #adb5bd;
+        }
+        
+        body.dark-mode .stat-box {
+            background-color: #343a40;
+            color: #f8f9fa;
+        }
+        
+        body.dark-mode .settings-option select, 
+        body.dark-mode .settings-option input {
+            background-color: #343a40;
+            color: #f8f9fa;
+            border-color: #495057;
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <button class="settings-btn" id="settingsBtn" title="Settings">⚙️</button>
+        <div class="settings-panel" id="settingsPanel">
+            <h3>Game Settings</h3>
+            <div class="settings-option">
+                <label for="darkModeToggle">Color Theme</label>
+                <select id="darkModeToggle">
+                    <option value="light">Light Mode</option>
+                    <option value="dark">Dark Mode</option>
+                </select>
+            </div>
+            <div class="settings-option">
+                <label for="animationToggle">Animations</label>
+                <select id="animationToggle">
+                    <option value="on">Enabled</option>
+                    <option value="off">Disabled</option>
+                </select>
+            </div>
+            <div class="settings-option">
+                <label for="wordOrder">Word Order</label>
+                <select id="wordOrder">
+                    <option value="random">Random</option>
+                    <option value="sequential">Sequential</option>
+                </select>
+            </div>
+            <div class="settings-option">
+                <label for="timerToggle">Timer</label>
+                <select id="timerToggle">
+                    <option value="off">Off</option>
+                    <option value="on">On</option>
+                </select>
+            </div>
+            <div class="settings-footer">
+                <button class="settings-close-btn" id="settingsCloseBtn">Close</button>
+            </div>
+        </div>
+        
+        <h1>Ultimate English Vocabulary Master</h1>
+        <div class="game-description">Expand your vocabulary with interactive exercises, track your progress, and achieve mastery</div>
+        
+        <div class="timer-container" id="timerContainer" style="display: none;">
+            <div class="timer">
+                <span class="icon">⏱️</span>
+                <span id="timerDisplay">00:00</span>
+            </div>
+        </div>
+        
+        <div class="game-header">
+            <div class="category-selector">
+                <button class="category-btn active" data-category="all">All Words</button>
+                <button class="category-btn" data-category="beginner">Beginner</button>
+                <button class="category-btn" data-category="intermediate">Intermediate</button>
+                <button class="category-btn" data-category="advanced">Advanced</button>
+                <button class="category-btn" data-category="business">Business</button>
+                <button class="category-btn" data-category="academic">Academic</button>
+            </div>
+        </div>
+        
+        <div class="game-modes">
+            <button class="mode-btn active" data-mode="flashcard">
+                <span class="icon">📇</span> Flashcards
+            </button>
+            <button class="mode-btn" data-mode="multiple">
+                <span class="icon">🔘</span> Multiple Choice
+            </button>
+            <button class="mode-btn" data-mode="typing">
+                <span class="icon">⌨️</span> Typing
+            </button>
+            <button class="mode-btn" data-mode="matching">
+                <span class="icon">↔️</span> Matching
+            </button>
+        </div>
+        
+        <div class="progress-container">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+        
+        <div class="word-count" id="wordCount"></div>
+        
+        <div class="game-area" id="gameArea">
+            <div class="word-display">Welcome to Ultimate Vocabulary Master!</div>
+            <div class="definition-display">Select a category and game mode to begin</div>
+        </div>
+        
+        <div class="feedback" id="feedback"></div>
+        <div class="hint-display" id="hintDisplay"></div>
+        
+        <div class="controls">
+            <button class="btn" id="checkBtn">
+                <span class="icon">✅</span> Check
+            </button>
+            <button class="btn" id="nextBtn">
+                <span class="icon">➡️</span> Next
+            </button>
+            <button class="btn btn-tertiary" id="hintBtn">
+                <span class="icon">💡</span> Hint
+            </button>
+        </div>
+        
+        <div class="stats-container">
+            <div class="stat-box">
+                <div class="stat-value" id="wordsPracticed">0</div>
+                <div class="stat-label">Words Practiced</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-value" id="correctCount">0</div>
+                <div class="stat-label">Correct Answers</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-value" id="wrongCount">0</div>
+                <div class="stat-label">Wrong Answers</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-value" id="streakCount">0</div>
+                <div class="stat-label">Current Streak</div>
+            </div>
+        </div>
+        
+        <div class="stats-summary" id="statsSummary" style="display: none;">
+            <h3>Session Summary</h3>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-card-value" id="summaryCorrect">0</div>
+                    <div class="stat-card-label">Correct</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-card-value" id="summaryWrong">0</div>
+                    <div class="stat-card-label">Wrong</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-card-value" id="summaryAccuracy">0%</div>
+                    <div class="stat-card-label">Accuracy</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-card-value" id="summaryTime">0:00</div>
+                    <div class="stat-card-label">Time</div>
+                </div>
+            </div>
+            <div class="word-history" id="wordHistory"></div>
+        </div>
+    </div>
+
+    <script>
+        // Enhanced vocabulary database with over 250 words across different categories
+        const vocabulary = [
+            // Beginner words (60)
+            { word: "apple", definition: "a round fruit with red, yellow, or green skin and firm white flesh", category: "beginner", example: "I eat an apple every morning for breakfast." },
+            { word: "book", definition: "a written or printed work consisting of pages glued or sewn together", category: "beginner", example: "She is reading an interesting book about history." },
+            { word: "cat", definition: "a small domesticated carnivorous mammal with soft fur", category: "beginner", example: "My cat likes to sleep on the sofa." },
+            { word: "dog", definition: "a domesticated carnivorous mammal with a snout and tail", category: "beginner", example: "We take our dog for a walk twice a day." },
+            { word: "house", definition: "a building for human habitation", category: "beginner", example: "They bought a new house in the suburbs." },
+            { word: "tree", definition: "a woody perennial plant with a single main stem", category: "beginner", example: "The children are playing under the big tree." },
+            { word: "water", definition: "a transparent, odorless, tasteless liquid", category: "beginner", example: "Remember to drink enough water every day." },
+            { word: "sun", definition: "the star around which the earth orbits", category: "beginner", example: "The sun rises in the east and sets in the west." },
+            { word: "happy", definition: "feeling or showing pleasure or contentment", category: "beginner", example: "She was very happy with her birthday present." },
+            { word: "sad", definition: "feeling or showing sorrow", category: "beginner", example: "He felt sad when his friend moved away." },
+            { word: "run", definition: "move at a speed faster than walking", category: "beginner", example: "I run in the park every morning to stay fit." },
+            { word: "walk", definition: "move at a regular pace by lifting and setting down each foot in turn", category: "beginner", example: "Let's walk to the store instead of driving." },
+            { word: "big", definition: "of considerable size or extent", category: "beginner", example: "They live in a big house with five bedrooms." },
+            { word: "small", definition: "of a size that is less than normal or usual", category: "beginner", example: "She keeps her jewelry in a small wooden box." },
+            { word: "good", definition: "to be desired or approved of", category: "beginner", example: "This restaurant serves really good pizza." },
+            { word: "bad", definition: "of poor quality or a low standard", category: "beginner", example: "Smoking is bad for your health." },
+            { word: "mother", definition: "a female parent", category: "beginner", example: "My mother teaches mathematics at the university." },
+            { word: "father", definition: "a male parent", category: "beginner", example: "His father works as a computer programmer." },
+            { word: "friend", definition: "a person whom one knows and with whom one has a bond", category: "beginner", example: "She's been my best friend since elementary school." },
+            { word: "school", definition: "an institution for educating children", category: "beginner", example: "The children go to school from Monday to Friday." },
+            { word: "teacher", definition: "a person who teaches", category: "beginner", example: "Our math teacher explains difficult concepts very clearly." },
+            { word: "student", definition: "a person who is studying", category: "beginner", example: "The students are preparing for their final exams." },
+            { word: "food", definition: "any nutritious substance that people or animals eat", category: "beginner", example: "Italian food is my favorite cuisine." },
+            { word: "drink", definition: "a liquid that can be swallowed as refreshment or nourishment", category: "beginner", example: "Would you like something to drink? Coffee or tea?" },
+            { word: "sleep", definition: "a condition of body and mind that typically recurs for several hours every night", category: "beginner", example: "I need at least seven hours of sleep to feel rested." },
+            { word: "work", definition: "activity involving mental or physical effort done to achieve a purpose", category: "beginner", example: "He leaves for work at 8 o'clock every morning." },
+            { word: "play", definition: "engage in activity for enjoyment and recreation", category: "beginner", example: "The children play in the park after school." },
+            { word: "day", definition: "a period of twenty-four hours", category: "beginner", example: "There are seven days in a week." },
+            { word: "night", definition: "the period of darkness in each twenty-four hours", category: "beginner", example: "The stars are visible at night when the sky is clear." },
+            { word: "time", definition: "the indefinite continued progress of existence", category: "beginner", example: "Time seems to pass more quickly as you get older." },
+            { word: "year", definition: "the time taken by the earth to make one revolution around the sun", category: "beginner", example: "We celebrate New Year's Eve on December 31st." },
+            { word: "month", definition: "each of the twelve named periods into which a year is divided", category: "beginner", example: "February is the shortest month of the year." },
+            { word: "week", definition: "a period of seven days", category: "beginner", example: "I go to the gym three times a week." },
+            { word: "today", definition: "on or in the course of this present day", category: "beginner", example: "Today is Wednesday, so tomorrow will be Thursday." },
+            { word: "tomorrow", definition: "on the day after today", category: "beginner", example: "We're going to the beach tomorrow if the weather is nice." },
+            { word: "yesterday", definition: "on the day before today", category: "beginner", example: "I finished reading that book yesterday evening." },
+            { word: "now", definition: "at the present time or moment", category: "beginner", example: "I'm busy right now, can we talk later?" },
+            { word: "here", definition: "in, at, or to this place or position", category: "beginner", example: "Please come here and look at this picture." },
+            { word: "there", definition: "in, at, or to that place or position", category: "beginner", example: "The keys are over there on the table." },
+            { word: "up", definition: "towards a higher place or position", category: "beginner", example: "Look up at the sky - there's a rainbow!" },
+            { word: "down", definition: "towards a lower place or position", category: "beginner", example: "She walked down the stairs carefully." },
+            { word: "left", definition: "on, towards, or relating to the side of a human body", category: "beginner", example: "In most countries, people drive on the left side of the road." },
+            { word: "right", definition: "on, towards, or relating to the side of a human body", category: "beginner", example: "Turn right at the next intersection to reach the museum." },
+            { word: "hot", definition: "having a high degree of heat or a high temperature", category: "beginner", example: "Be careful, the coffee is very hot!" },
+            { word: "cold", definition: "of or at a low or relatively low temperature", category: "beginner", example: "It's cold outside, so wear your warm coat." },
+            { word: "new", definition: "produced, introduced, or discovered recently", category: "beginner", example: "They just bought a new car last week." },
+            { word: "old", definition: "having lived for a long time", category: "beginner", example: "That old tree in the park is over 200 years old." },
+            { word: "fast", definition: "moving or capable of moving at high speed", category: "beginner", example: "The fast train gets to the city in just 30 minutes." },
+            { word: "slow", definition: "moving or operating at a low speed", category: "beginner", example: "The internet connection is very slow today." },
+            { word: "easy", definition: "achieved without great effort", category: "beginner", example: "This math problem is easy to solve." },
+            { word: "hard", definition: "solid, firm, and rigid; not easily broken", category: "beginner", example: "The bread became hard after a few days." },
+            { word: "clean", definition: "free from dirt, marks, or stains", category: "beginner", example: "Please keep your room clean and tidy." },
+            { word: "dirty", definition: "covered or marked with an unclean substance", category: "beginner", example: "His shoes were dirty after walking in the mud." },
+            { word: "open", definition: "allowing access, passage, or view", category: "beginner", example: "Please leave the door open for fresh air." },
+            { word: "close", definition: "only a short distance away or apart in space or time", category: "beginner", example: "The store is close to my house." },
+            { word: "start", definition: "begin or be reckoned from a particular point in time or space", category: "beginner", example: "The race will start at 9 AM." },
+            { word: "stop", definition: "come to an end; cease to happen", category: "beginner", example: "The rain should stop by afternoon." },
+            { word: "give", definition: "freely transfer the possession of something to someone", category: "beginner", example: "I want to give you this book as a gift." },
+            { word: "take", definition: "lay hold of something with one's hands", category: "beginner", example: "Please take your umbrella with you." },
+            
+            // Intermediate words (60)
+            { word: "ambitious", definition: "having or showing a strong desire and determination to succeed", category: "intermediate", example: "She has ambitious plans to start her own business." },
+            { word: "benefit", definition: "an advantage or profit gained from something", category: "intermediate", example: "One benefit of regular exercise is improved sleep quality." },
+            { word: "challenge", definition: "a task or situation that tests someone's abilities", category: "intermediate", example: "Learning a new language can be a rewarding challenge." },
+            { word: "diligent", definition: "showing care and conscientiousness in one's work or duties", category: "intermediate", example: "The diligent student always completes her assignments on time." },
+            { word: "efficient", definition: "achieving maximum productivity with minimum wasted effort", category: "intermediate", example: "The new software makes the process much more efficient." },
+            { word: "frequent", definition: "occurring or done many times at short intervals", category: "intermediate", example: "He makes frequent trips to New York for business meetings." },
+            { word: "generous", definition: "showing a readiness to give more of something than is necessary", category: "intermediate", example: "She was generous enough to donate a large sum to charity." },
+            { word: "hesitate", definition: "pause before saying or doing something", category: "intermediate", example: "Don't hesitate to ask if you need any help." },
+            { word: "illustrate", definition: "provide with pictures", category: "intermediate", example: "The textbook is well illustrated with diagrams and photographs." },
+            { word: "jealous", definition: "feeling or showing envy of someone or their achievements", category: "intermediate", example: "He felt jealous when his colleague got the promotion." },
+            { word: "knowledge", definition: "facts, information, and skills acquired through experience", category: "intermediate", example: "She has extensive knowledge of medieval history." },
+            { word: "luxury", definition: "a state of great comfort or elegance", category: "intermediate", example: "Staying in a five-star hotel is an occasional luxury." },
+            { word: "mature", definition: "fully developed physically", category: "intermediate", example: "At 18, he's now legally considered a mature adult." },
+            { word: "necessary", definition: "required to be done", category: "intermediate", example: "It's necessary to wear a helmet when riding a motorcycle." },
+            { word: "obvious", definition: "easily perceived or understood", category: "intermediate", example: "It was obvious from her expression that she was upset." },
+            { word: "patient", definition: "able to accept or tolerate delays without becoming annoyed", category: "intermediate", example: "You need to be patient when teaching young children." },
+            { word: "quality", definition: "the standard of something as measured against others", category: "intermediate", example: "The quality of their products has improved significantly." },
+            { word: "reliable", definition: "consistently good in quality or performance", category: "intermediate", example: "This car is very reliable and rarely needs repairs." },
+            { word: "sincere", definition: "free from pretense or deceit", category: "intermediate", example: "She offered a sincere apology for her mistake." },
+            { word: "tradition", definition: "the transmission of customs or beliefs from generation to generation", category: "intermediate", example: "It's a family tradition to gather for dinner every Sunday." },
+            { word: "unique", definition: "being the only one of its kind", category: "intermediate", example: "Each snowflake has a unique pattern." },
+            { word: "various", definition: "different from one another", category: "intermediate", example: "The store sells various types of imported cheeses." },
+            { word: "wonder", definition: "a feeling of amazement and admiration", category: "intermediate", example: "The Grand Canyon fills visitors with wonder." },
+            { word: "youth", definition: "the period between childhood and adult age", category: "intermediate", example: "In his youth, he traveled extensively around Asia." },
+            { word: "zealous", definition: "having or showing zeal", category: "intermediate", example: "She's a zealous supporter of environmental causes." },
+            { word: "abundant", definition: "existing or available in large quantities", category: "intermediate", example: "The region has abundant natural resources." },
+            { word: "brilliant", definition: "exceptionally clever or talented", category: "intermediate", example: "She came up with a brilliant solution to the problem." },
+            { word: "cautious", definition: "careful to avoid potential problems or dangers", category: "intermediate", example: "Investors are being cautious due to market uncertainty." },
+            { word: "diverse", definition: "showing a great deal of variety", category: "intermediate", example: "The city has a culturally diverse population." },
+            { word: "essential", definition: "absolutely necessary", category: "intermediate", example: "Water is essential for all living things." },
+            { word: "flexible", definition: "capable of bending easily without breaking", category: "intermediate", example: "The schedule is flexible and can be adjusted if needed." },
+            { word: "genuine", definition: "truly what something is said to be", category: "intermediate", example: "She showed genuine concern for her friend's wellbeing." },
+            { word: "humble", definition: "having or showing a modest estimate of one's importance", category: "intermediate", example: "Despite his success, he remains humble and down-to-earth." },
+            { word: "innovative", definition: "featuring new methods", category: "intermediate", example: "The company is known for its innovative approach to design." },
+            { word: "jovial", definition: "cheerful and friendly", category: "intermediate", example: "His jovial personality makes him popular at parties." },
+            { word: "keen", definition: "having or showing eagerness or enthusiasm", category: "intermediate", example: "She's keen to learn more about digital marketing." },
+            { word: "logical", definition: "of or according to the rules of logic", category: "intermediate", example: "There must be a logical explanation for this phenomenon." },
+            { word: "modest", definition: "unassuming in the estimation of one's abilities", category: "intermediate", example: "He's very modest about his academic achievements." },
+            { word: "notable", definition: "worthy of attention or notice", category: "intermediate", example: "The conference attracted several notable speakers." },
+            { word: "optimistic", definition: "hopeful and confident about the future", category: "intermediate", example: "She remains optimistic despite the challenges." },
+            { word: "persistent", definition: "continuing firmly in a course of action despite difficulty", category: "intermediate", example: "His persistent efforts eventually led to success." },
+            { word: "quaint", definition: "attractively unusual or old-fashioned", category: "intermediate", example: "We stayed in a quaint little village in the countryside." },
+            { word: "rational", definition: "based on or in accordance with reason or logic", category: "intermediate", example: "It's important to make rational decisions in business." },
+            { word: "skeptical", definition: "not easily convinced", category: "intermediate", example: "Many scientists were skeptical about the new theory at first." },
+            { word: "thorough", definition: "complete with regard to every detail", category: "intermediate", example: "The police conducted a thorough investigation." },
+            { word: "upbeat", definition: "cheerful", category: "intermediate", example: "She maintained an upbeat attitude throughout her recovery." },
+            { word: "vibrant", definition: "full of energy and enthusiasm", category: "intermediate", example: "The city has a vibrant arts and culture scene." },
+            { word: "wholesome", definition: "conducive to or suggestive of good health", category: "intermediate", example: "They serve wholesome, organic food at the café." },
+            { word: "exuberant", definition: "filled with or characterized by a lively energy", category: "intermediate", example: "The children were exuberant after winning the game." },
+            { word: "frugal", definition: "sparing or economical with regard to money or food", category: "intermediate", example: "His frugal habits helped him save for retirement." },
+            { word: "gracious", definition: "courteous, kind, and pleasant", category: "intermediate", example: "She was gracious enough to thank everyone personally." },
+            { word: "hazardous", definition: "risky; dangerous", category: "intermediate", example: "Working with chemicals can be hazardous without proper protection." },
+            { word: "intuitive", definition: "using or based on what one feels to be true even without conscious reasoning", category: "intermediate", example: "The software has an intuitive interface that's easy to learn." },
+            { word: "judicious", definition: "having, showing, or done with good judgment or sense", category: "intermediate", example: "The manager made judicious use of the company's resources." },
+            { word: "kinetic", definition: "relating to or resulting from motion", category: "intermediate", example: "The sculpture had a kinetic element that moved with the wind." },
+            { word: "luminous", definition: "full of or shedding light; bright or shining", category: "intermediate", example: "The watch has luminous hands that glow in the dark." },
+            { word: "meticulous", definition: "showing great attention to detail; very careful and precise", category: "intermediate", example: "She kept meticulous records of all her expenses." },
+            { word: "nostalgic", definition: "characterized by or exhibiting feelings of nostalgia", category: "intermediate", example: "Looking at old photos made him feel nostalgic for his childhood." },
+            
+            // Advanced words (60)
+            { word: "aberration", definition: "a departure from what is normal or expected", category: "advanced", example: "The sudden cold weather in June was an aberration." },
+            { word: "benevolent", definition: "well meaning and kindly", category: "advanced", example: "The benevolent old man donated his entire fortune to charity." },
+            { word: "cacophony", definition: "a harsh, discordant mixture of sounds", category: "advanced", example: "The cacophony of car horns during rush hour was unbearable." },
+            { word: "dearth", definition: "a scarcity or lack of something", category: "advanced", example: "There's a dearth of affordable housing in the city." },
+            { word: "ebullient", definition: "cheerful and full of energy", category: "advanced", example: "Her ebullient personality made her the life of the party." },
+            { word: "fastidious", definition: "very attentive to accuracy and detail", category: "advanced", example: "The fastidious editor checked every fact in the article." },
+            { word: "gregarious", definition: "fond of company", category: "advanced", example: "Gregarious by nature, he hated spending evenings alone." },
+            { word: "harangue", definition: "a lengthy and aggressive speech", category: "advanced", example: "The coach delivered a passionate harangue to motivate the team." },
+            { word: "iconoclast", definition: "a person who attacks cherished beliefs", category: "advanced", example: "The scientist was considered an iconoclast for challenging established theories." },
+            { word: "juxtaposition", definition: "the fact of two things being placed close together with contrasting effect", category: "advanced", example: "The juxtaposition of modern and traditional architecture creates an interesting cityscape." },
+            { word: "kowtow", definition: "act in an excessively subservient manner", category: "advanced", example: "He refused to kowtow to the demands of the corrupt officials." },
+            { word: "languid", definition: "slow and relaxed", category: "advanced", example: "The hot afternoon made everyone feel languid and sleepy." },
+            { word: "mellifluous", definition: "pleasantly smooth and musical to hear", category: "advanced", example: "Her mellifluous voice was perfect for radio broadcasting." },
+            { word: "nefarious", definition: "wicked or criminal", category: "advanced", example: "The organization was involved in various nefarious activities." },
+            { word: "obfuscate", definition: "deliberately make something difficult to understand", category: "advanced", example: "Politicians sometimes obfuscate the truth with complicated language." },
+            { word: "pernicious", definition: "having a harmful effect", category: "advanced", example: "The pernicious influence of social media on self-esteem is concerning." },
+            { word: "quixotic", definition: "exceedingly idealistic", category: "advanced", example: "His quixotic attempt to solve world hunger was admirable but unrealistic." },
+            { word: "recalcitrant", definition: "stubbornly refusing to obey authority", category: "advanced", example: "The recalcitrant student refused to follow the classroom rules." },
+            { word: "sanguine", definition: "optimistic or positive", category: "advanced", example: "Despite the setbacks, she remained sanguine about the project's success." },
+            { word: "trepidation", definition: "a feeling of fear or agitation", category: "advanced", example: "She approached the interview with some trepidation." },
+            { word: "ubiquitous", definition: "present, appearing, or found everywhere", category: "advanced", example: "Mobile phones have become ubiquitous in modern society." },
+            { word: "vociferous", definition: "expressing feelings or opinions in a very loud or forceful way", category: "advanced", example: "The protestors were vociferous in their demands for reform." },
+            { word: "wanton", definition: "deliberate and unprovoked", category: "advanced", example: "The wanton destruction of historical monuments shocked the world." },
+            { word: "xenophobia", definition: "dislike of or prejudice against people from other countries", category: "advanced", example: "The government implemented policies to combat xenophobia." },
+            { word: "yoke", definition: "a wooden crosspiece fastened over the necks of two animals", category: "advanced", example: "The oxen were tied together with a sturdy wooden yoke." },
+            { word: "zealot", definition: "a person who is fanatical and uncompromising in pursuit of their ideals", category: "advanced", example: "Religious zealots sometimes take extreme positions." },
+            { word: "acrimonious", definition: "angry and bitter", category: "advanced", example: "The divorce proceedings became increasingly acrimonious." },
+            { word: "bombastic", definition: "high-sounding but with little meaning", category: "advanced", example: "The politician's bombastic speech failed to impress the audience." },
+            { word: "circumspect", definition: "wary and unwilling to take risks", category: "advanced", example: "Investors should be circumspect when considering new opportunities." },
+            { word: "dichotomy", definition: "a division or contrast between two things", category: "advanced", example: "There's often a dichotomy between theory and practice." },
+            { word: "ephemeral", definition: "lasting for a very short time", category: "advanced", example: "Fame can be ephemeral in the entertainment industry." },
+            { word: "facetious", definition: "treating serious issues with deliberately inappropriate humor", category: "advanced", example: "His facetious remarks during the meeting were poorly received." },
+            { word: "garrulous", definition: "excessively talkative", category: "advanced", example: "The garrulous taxi driver talked nonstop throughout the ride." },
+            { word: "hapless", definition: "unfortunate", category: "advanced", example: "The hapless tourist lost his passport on the first day of his vacation." },
+            { word: "idiosyncratic", definition: "relating to idiosyncrasy", category: "advanced", example: "The artist had an idiosyncratic style that was immediately recognizable." },
+            { word: "jubilant", definition: "feeling or expressing great happiness", category: "advanced", example: "The team was jubilant after winning the championship." },
+            { word: "kaleidoscopic", definition: "having complex patterns of colors", category: "advanced", example: "The kaleidoscopic display of fireworks lit up the night sky." },
+            { word: "loquacious", definition: "tending to talk a great deal", category: "advanced", example: "His loquacious nature made him an excellent salesman." },
+            { word: "meticulous", definition: "showing great attention to detail", category: "advanced", example: "The meticulous craftsman spent weeks perfecting the piece." },
+            { word: "noxious", definition: "harmful, poisonous, or very unpleasant", category: "advanced", example: "The factory was releasing noxious fumes into the atmosphere." },
+            { word: "ostentatious", definition: "designed to impress or attract notice", category: "advanced", example: "Their ostentatious display of wealth made many people uncomfortable." },
+            { word: "paragon", definition: "a person or thing regarded as a perfect example", category: "advanced", example: "She was considered a paragon of virtue in the community." },
+            { word: "querulous", definition: "complaining in a petulant or whining manner", category: "advanced", example: "The querulous customer demanded to speak to the manager." },
+            { word: "resplendent", definition: "attractive and impressive through being richly colorful", category: "advanced", example: "The queen appeared in resplendent robes for the ceremony." },
+            { word: "sycophant", definition: "a person who acts obsequiously toward someone important", category: "advanced", example: "The CEO surrounded himself with sycophants who never challenged his ideas." },
+            { word: "tirade", definition: "a long, angry speech of criticism", category: "advanced", example: "The coach launched into a tirade about the team's poor performance." },
+            { word: "unctuous", definition: "excessively flattering or ingratiating", category: "advanced", example: "The unctuous salesman made the customers uncomfortable." },
+            { word: "verisimilitude", definition: "the appearance of being true or real", category: "advanced", example: "The film's attention to detail gave it a sense of verisimilitude." },
+            { word: "wistful", definition: "having or showing a feeling of vague or regretful longing", category: "advanced", example: "She gave a wistful smile as she remembered her childhood." },
+            { word: "xeric", definition: "relating to or adapted to a dry environment", category: "advanced", example: "Cacti and other xeric plants thrive in desert conditions." },
+            { word: "yen", definition: "a strong desire or inclination", category: "advanced", example: "He had a yen for travel that couldn't be satisfied." },
+            { word: "zephyr", definition: "a gentle breeze", category: "advanced", example: "A warm zephyr rustled the leaves of the trees." },
+            { word: "alacrity", definition: "brisk and cheerful readiness", category: "advanced", example: "She accepted the invitation with alacrity." },
+            { word: "bucolic", definition: "relating to the pleasant aspects of the countryside and country life", category: "advanced", example: "The painting depicted a bucolic scene of farmers in a field." },
+            { word: "cajole", definition: "persuade someone to do something by sustained coaxing or flattery", category: "advanced", example: "He managed to cajole his sister into lending him the car." },
+            { word: "dalliance", definition: "a casual romantic or sexual relationship", category: "advanced", example: "Their summer dalliance ended when they returned to school." },
+            { word: "effervescent", definition: "vivacious and enthusiastic", category: "advanced", example: "Her effervescent personality made her popular at parties." },
+            { word: "fractious", definition: "irritable and quarrelsome", category: "advanced", example: "The fractious child refused to cooperate with anyone." },
+            
+            // Business words (40)
+            { word: "acquisition", definition: "an asset or object bought or obtained", category: "business", example: "The company announced the acquisition of a smaller competitor." },
+            { word: "benchmark", definition: "a standard or point of reference", category: "business", example: "We use industry benchmarks to measure our performance." },
+            { word: "consolidate", definition: "make something physically stronger or more solid", category: "business", example: "The company plans to consolidate its operations to reduce costs." },
+            { word: "dividend", definition: "a sum of money paid regularly by a company to its shareholders", category: "business", example: "The board declared a quarterly dividend of $0.50 per share." },
+            { word: "equity", definition: "the value of the shares issued by a company", category: "business", example: "She owns 10% of the company's equity." },
+            { word: "franchise", definition: "an authorization granted by a government or company", category: "business", example: "He owns three fast food franchises in the city." },
+            { word: "goodwill", definition: "the established reputation of a business regarded as a quantifiable asset", category: "business", example: "The purchase price included a substantial amount for goodwill." },
+            { word: "hedge", definition: "a way of protecting oneself against financial loss", category: "business", example: "Investors often hedge against inflation by buying gold." },
+            { word: "inventory", definition: "a complete list of items such as property or stock", category: "business", example: "We need to conduct a year-end inventory of all products." },
+            { word: "joint venture", definition: "a commercial enterprise undertaken jointly by two or more parties", category: "business", example: "The two companies formed a joint venture to develop the new technology." },
+            { word: "kickback", definition: "a sum of money given illegally as payment for favorable treatment", category: "business", example: "The executive was fired for accepting kickbacks from suppliers." },
+            { word: "leverage", definition: "the ratio of a company's loan capital to the value of its shares", category: "business", example: "The firm used financial leverage to fund the expansion." },
+            { word: "merger", definition: "a combination of two things into one", category: "business", example: "The merger created one of the largest banks in the country." },
+            { word: "niche", definition: "a specialized segment of the market for a particular kind of product", category: "business", example: "The company found success by targeting a niche market." },
+            { word: "outsource", definition: "obtain goods or services from an outside supplier", category: "business", example: "Many companies outsource their customer service operations." },
+            { word: "portfolio", definition: "a range of investments held by a person or organization", category: "business", example: "He manages an investment portfolio worth millions." },
+            { word: "quota", definition: "a fixed share of something that a person is entitled to receive", category: "business", example: "The sales team exceeded their quarterly quota." },
+            { word: "revenue", definition: "income, especially when of a company or organization", category: "business", example: "Annual revenue increased by 15% this year." },
+            { word: "synergy", definition: "the interaction of elements that when combined produce a total effect", category: "business", example: "The merger created significant synergies between the two companies." },
+            { word: "turnover", definition: "the amount of money taken by a business in a particular period", category: "business", example: "The shop has an annual turnover of about $500,000." },
+            { word: "upsell", definition: "persuade a customer to buy something additional or more expensive", category: "business", example: "Staff are trained to upsell premium products to customers." },
+            { word: "venture", definition: "a risky or daring journey or undertaking", category: "business", example: "The startup is his latest business venture." },
+            { word: "wholesale", definition: "the business of selling of goods in large quantities", category: "business", example: "They operate a wholesale business supplying retailers nationwide." },
+            { word: "yield", definition: "produce or provide", category: "business", example: "The investment yields an annual return of about 7%." },
+            { word: "zero-sum", definition: "a situation in which one person's gain is equivalent to another's loss", category: "business", example: "Some view business as a zero-sum game, but cooperation can create mutual benefits." },
+            { word: "arbitrage", definition: "the simultaneous buying and selling of securities in different markets", category: "business", example: "Traders profit from arbitrage opportunities in global markets." },
+            { word: "blue chip", definition: "a common stock of a nationally recognized company", category: "business", example: "Her portfolio consists mainly of blue chip stocks." },
+            { word: "collateral", definition: "something pledged as security for repayment of a loan", category: "business", example: "The loan was secured with the property as collateral." },
+            { word: "depreciation", definition: "a reduction in the value of an asset over time", category: "business", example: "The equipment is subject to annual depreciation." },
+            { word: "escrow", definition: "a bond or other written obligation deposited with a third party", category: "business", example: "The funds were held in escrow until the transaction was completed." },
+            { word: "feasibility", definition: "the state or degree of being easily or conveniently done", category: "business", example: "We conducted a feasibility study before launching the project." },
+            { word: "goodwill", definition: "the established reputation of a business regarded as a quantifiable asset", category: "business", example: "The purchase price included a substantial amount for goodwill." },
+            { word: "horizontal", definition: "relating to companies at the same stage of production in an industry", category: "business", example: "The company pursued horizontal integration by acquiring competitors." },
+            { word: "incentive", definition: "a thing that motivates or encourages one to do something", category: "business", example: "The company offers performance-based incentives to employees." },
+            { word: "just-in-time", definition: "a production strategy to reduce in-process inventory", category: "business", example: "The factory adopted a just-in-time inventory system to reduce costs." },
+            { word: "key performance indicator", definition: "a measurable value that demonstrates effectiveness", category: "business", example: "Sales growth is one of our key performance indicators." },
+            { word: "liquidity", definition: "the availability of liquid assets to a market or company", category: "business", example: "The company maintains high liquidity to cover short-term obligations." },
+            { word: "market penetration", definition: "the extent to which a product is recognized and bought", category: "business", example: "Our goal is to increase market penetration by 10% this year." },
+            { word: "networking", definition: "interacting with others to exchange information and develop contacts", category: "business", example: "Business networking events can lead to valuable connections." },
+            { word: "operational", definition: "relating to the routine functioning of an organization", category: "business", example: "We need to improve our operational efficiency." },
+            
+            // Academic words (40)
+            { word: "analysis", definition: "detailed examination of the elements or structure of something", category: "academic", example: "The paper provides an in-depth analysis of economic trends." },
+            { word: "bibliography", definition: "a list of the books referred to in a scholarly work", category: "academic", example: "Remember to include a bibliography with your research paper." },
+            { word: "citation", definition: "a quotation from or reference to a book or author", category: "academic", example: "Proper citation is essential to avoid plagiarism." },
+            { word: "deduction", definition: "the inference of particular instances by reference to a general law", category: "academic", example: "Sherlock Holmes was famous for his powers of deduction." },
+            { word: "empirical", definition: "based on observation or experience rather than theory", category: "academic", example: "The study provides empirical evidence to support the hypothesis." },
+            { word: "footnote", definition: "an ancillary piece of information printed at the bottom of a page", category: "academic", example: "Additional data is available in the footnote on page 45." },
+            { word: "hypothesis", definition: "a supposition made as a basis for reasoning", category: "academic", example: "The researcher tested her hypothesis through a series of experiments." },
+            { word: "induction", definition: "the inference of a general law from particular instances", category: "academic", example: "The scientific method often involves reasoning by induction." },
+            { word: "journal", definition: "a newspaper or magazine dealing with a particular subject", category: "academic", example: "She published her findings in a peer-reviewed journal." },
+            { word: "knowledge", definition: "facts, information, and skills acquired through experience", category: "academic", example: "The university is a center of knowledge and learning." },
+            { word: "literature", definition: "written works, especially those considered of superior artistic merit", category: "academic", example: "The course covers American literature from 1900 to 1950." },
+            { word: "methodology", definition: "a system of methods used in a particular area of study", category: "academic", example: "The thesis clearly explains the research methodology." },
+            { word: "notation", definition: "a series or system of written symbols used to represent numbers or amounts", category: "academic", example: "Musical notation allows composers to write down their works." },
+            { word: "ontology", definition: "the branch of metaphysics dealing with the nature of being", category: "academic", example: "The philosopher specialized in ontology and epistemology." },
+            { word: "paradigm", definition: "a typical example or pattern of something", category: "academic", example: "The discovery caused a paradigm shift in physics." },
+            { word: "qualitative", definition: "relating to, measuring, or measured by the quality of something", category: "academic", example: "The study used qualitative methods like interviews and observations." },
+            { word: "quantitative", definition: "relating to, measuring, or measured by the quantity of something", category: "academic", example: "Quantitative analysis revealed significant differences between groups." },
+            { word: "rhetoric", definition: "the art of effective or persuasive speaking or writing", category: "academic", example: "Political rhetoric often aims to appeal to emotions." },
+            { word: "syllabus", definition: "an outline of the subjects in a course of study", category: "academic", example: "The syllabus lists all required readings and assignments." },
+            { word: "thesis", definition: "a statement or theory put forward to be maintained or proved", category: "academic", example: "She defended her doctoral thesis successfully last month." },
+            { word: "undergraduate", definition: "a university student who has not yet taken a first degree", category: "academic", example: "The university has about 10,000 undergraduate students." },
+            { word: "validity", definition: "the quality of being logically or factually sound", category: "academic", example: "Researchers questioned the validity of the experimental design." },
+            { word: "works cited", definition: "a list of sources referred to in the academic work", category: "academic", example: "Don't forget to include a works cited page with your essay." },
+            { word: "exegesis", definition: "critical explanation or interpretation of a text", category: "academic", example: "The book contains detailed exegesis of biblical passages." },
+            { word: "yield", definition: "produce or provide", category: "academic", example: "The experiment yielded unexpected results." },
+            { word: "zeitgeist", definition: "the defining spirit or mood of a particular period of history", category: "academic", example: "The novel perfectly captures the zeitgeist of the 1920s." },
+            { word: "abstract", definition: "existing in thought or as an idea but not having a physical existence", category: "academic", example: "The abstract concepts were difficult for some students to grasp." },
+            { word: "bias", definition: "prejudice in favor of or against one thing compared with another", category: "academic", example: "The study attempted to eliminate potential sources of bias." },
+            { word: "correlation", definition: "a mutual relationship or connection between two or more things", category: "academic", example: "The research found a strong correlation between exercise and happiness." },
+            { word: "discourse", definition: "written or spoken communication or debate", category: "academic", example: "The professor analyzed political discourse in the media." },
+            { word: "epistemology", definition: "the theory of knowledge, especially with regard to its methods", category: "academic", example: "The course examines different approaches to epistemology." },
+            { word: "framework", definition: "a basic structure underlying a system or concept", category: "academic", example: "The research is based on a theoretical framework developed earlier." },
+            { word: "heuristic", definition: "enabling a person to discover or learn something for themselves", category: "academic", example: "The teacher used heuristic methods to encourage independent thinking." },
+            { word: "ideology", definition: "a system of ideas and ideals forming the basis of economic theory", category: "academic", example: "The paper examines the ideology behind the political movement." },
+            { word: "jurisprudence", definition: "the theory or philosophy of law", category: "academic", example: "She specialized in jurisprudence and legal theory." },
+            { word: "kinematics", definition: "the branch of mechanics concerned with motion without reference to force", category: "academic", example: "The physics course begins with the study of kinematics." },
+            { word: "lexicon", definition: "the vocabulary of a person, language, or branch of knowledge", category: "academic", example: "The technical lexicon of computer science evolves rapidly." },
+            { word: "metaphysics", definition: "the branch of philosophy that deals with abstract concepts", category: "academic", example: "His work bridges the gap between physics and metaphysics." },
+            { word: "normative", definition: "establishing, relating to, or deriving from a standard or norm", category: "academic", example: "The study makes normative claims about educational practices." },
+            { word: "orthography", definition: "the conventional spelling system of a language", category: "academic", example: "The research examines changes in English orthography over time." }
+        ];
+
+        // Game state variables
+        let currentMode = 'flashcard';
+        let currentCategory = 'all';
+        let currentWordIndex = 0;
+        let wordsPracticed = 0;
+        let correctCount = 0;
+        let wrongCount = 0;
+        let streakCount = 0;
+        let filteredVocabulary = [...vocabulary];
+        let currentWord = null;
+        let shuffledOptions = [];
+        let userAnswer = '';
+        let showDefinition = false;
+        let showHint = false;
+        let animationsEnabled = true;
+        let wordOrder = 'random';
+        let darkMode = false;
+        let timerEnabled = false;
+        let startTime = null;
+        let elapsedTime = 0;
+        let timerInterval = null;
+        let practiceHistory = [];
+        let sessionHistory = [];
+        let achievements = [];
+
+        // DOM elements
+        const gameArea = document.getElementById('gameArea');
+        const feedbackElement = document.getElementById('feedback');
+        const hintDisplay = document.getElementById('hintDisplay');
+        const wordsPracticedElement = document.getElementById('wordsPracticed');
+        const correctCountElement = document.getElementById('correctCount');
+        const wrongCountElement = document.getElementById('wrongCount');
+        const streakCountElement = document.getElementById('streakCount');
+        const progressBar = document.getElementById('progressBar');
+        const checkBtn = document.getElementById('checkBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const hintBtn = document.getElementById('hintBtn');
+        const settingsBtn = document.getElementById('settingsBtn');
+        const settingsPanel = document.getElementById('settingsPanel');
+        const settingsCloseBtn = document.getElementById('settingsCloseBtn');
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const animationToggle = document.getElementById('animationToggle');
+        const wordOrderSelect = document.getElementById('wordOrder');
+        const timerToggle = document.getElementById('timerToggle');
+        const timerContainer = document.getElementById('timerContainer');
+        const timerDisplay = document.getElementById('timerDisplay');
+        const wordCount = document.getElementById('wordCount');
+        const statsSummary = document.getElementById('statsSummary');
+        const summaryCorrect = document.getElementById('summaryCorrect');
+        const summaryWrong = document.getElementById('summaryWrong');
+        const summaryAccuracy = document.getElementById('summaryAccuracy');
+        const summaryTime = document.getElementById('summaryTime');
+        const wordHistory = document.getElementById('wordHistory');
+
+        // Initialize the game
+        function initGame() {
+            filterVocabulary();
+            setupModeButtons();
+            setupCategoryButtons();
+            setupControlButtons();
+            setupSettingsPanel();
+            loadPreferences();
+            updateWordCount();
+            nextWord();
+            updateStats();
+        }
+
+        // Filter vocabulary based on selected category
+        function filterVocabulary() {
+            if (currentCategory === 'all') {
+                filteredVocabulary = [...vocabulary];
+            } else {
+                filteredVocabulary = vocabulary.filter(word => word.category === currentCategory);
+            }
+            
+            // Shuffle the array if random order is selected
+            if (wordOrder === 'random') {
+                filteredVocabulary = shuffleArray([...filteredVocabulary]);
+            }
+            
+            currentWordIndex = 0;
+            updateWordCount();
+        }
+
+        // Update word count display
+        function updateWordCount() {
+            wordCount.textContent = `${filteredVocabulary.length} words`;
+        }
+
+        // Set up mode buttons
+        function setupModeButtons() {
+            const modeButtons = document.querySelectorAll('.mode-btn');
+            modeButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    modeButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                    currentMode = button.dataset.mode;
+                    resetSession();
+                    nextWord();
+                });
+            });
+        }
+
+        // Set up category buttons
+        function setupCategoryButtons() {
+            const categoryButtons = document.querySelectorAll('.category-btn');
+            categoryButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    categoryButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                    currentCategory = button.dataset.category;
+                    filterVocabulary();
+                    resetSession();
+                    nextWord();
+                });
+            });
+        }
+
+        // Set up control buttons
+        function setupControlButtons() {
+            checkBtn.addEventListener('click', () => {
+                if (currentMode === 'typing') {
+                    checkAnswer();
+                }
+            });
+
+            nextBtn.addEventListener('click', nextWord);
+
+            hintBtn.addEventListener('click', showHintFunction);
+        }
+
+        // Set up settings panel
+        function setupSettingsPanel() {
+            settingsBtn.addEventListener('click', toggleSettingsPanel);
+
+            settingsCloseBtn.addEventListener('click', toggleSettingsPanel);
+
+            // Close settings when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!settingsPanel.contains(e.target) && e.target !== settingsBtn) {
+                    settingsPanel.style.display = 'none';
+                }
+            });
+
+            darkModeToggle.addEventListener('change', (e) => {
+                darkMode = e.target.value === 'dark';
+                document.body.classList.toggle('dark-mode', darkMode);
+                savePreferences();
+            });
+
+            animationToggle.addEventListener('change', (e) => {
+                animationsEnabled = e.target.value === 'on';
+                savePreferences();
+            });
+
+            wordOrderSelect.addEventListener('change', (e) => {
+                wordOrder = e.target.value;
+                filterVocabulary();
+                nextWord();
+                savePreferences();
+            });
+
+            timerToggle.addEventListener('change', (e) => {
+                timerEnabled = e.target.value === 'on';
+                timerContainer.style.display = timerEnabled ? 'flex' : 'none';
+                if (timerEnabled && !timerInterval) {
+                    startTimer();
+                } else if (!timerEnabled && timerInterval) {
+                    stopTimer();
+                }
+                savePreferences();
+            });
+        }
+
+        // Toggle settings panel visibility
+        function toggleSettingsPanel() {
+            settingsPanel.style.display = settingsPanel.style.display === 'block' ? 'none' : 'block';
+        }
+
+        // Load saved preferences
+        function loadPreferences() {
+            const savedDarkMode = localStorage.getItem('darkMode');
+            if (savedDarkMode) {
+                darkMode = savedDarkMode === 'dark';
+                darkModeToggle.value = savedDarkMode;
+                document.body.classList.toggle('dark-mode', darkMode);
+            }
+
+            const savedAnimations = localStorage.getItem('animations');
+            if (savedAnimations) {
+                animationsEnabled = savedAnimations === 'on';
+                animationToggle.value = savedAnimations;
+            }
+
+            const savedWordOrder = localStorage.getItem('wordOrder');
+            if (savedWordOrder) {
+                wordOrder = savedWordOrder;
+                wordOrderSelect.value = savedWordOrder;
+            }
+
+            const savedTimer = localStorage.getItem('timer');
+            if (savedTimer) {
+                timerEnabled = savedTimer === 'on';
+                timerToggle.value = savedTimer;
+                timerContainer.style.display = timerEnabled ? 'flex' : 'none';
+                if (timerEnabled) {
+                    startTimer();
+                }
+            }
+        }
+
+        // Save preferences to localStorage
+        function savePreferences() {
+            localStorage.setItem('darkMode', darkMode ? 'dark' : 'light');
+            localStorage.setItem('animations', animationsEnabled ? 'on' : 'off');
+            localStorage.setItem('wordOrder', wordOrder);
+            localStorage.setItem('timer', timerEnabled ? 'on' : 'off');
+        }
+
+        // Start the timer
+        function startTimer() {
+            startTime = new Date();
+            timerInterval = setInterval(updateTimer, 1000);
+        }
+
+        // Stop the timer
+        function stopTimer() {
+            clearInterval(timerInterval);
+            timerInterval = null;
+        }
+
+        // Update timer display
+        function updateTimer() {
+            const now = new Date();
+            elapsedTime = Math.floor((now - startTime) / 1000);
+            const minutes = Math.floor(elapsedTime / 60);
+            const seconds = elapsedTime % 60;
+            timerDisplay.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        // Format time for display
+        function formatTime(seconds) {
+            const minutes = Math.floor(seconds / 60);
+            const remainingSeconds = seconds % 60;
+            return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
+        }
+
+        // Reset session statistics
+        function resetSession() {
+            sessionHistory = [];
+            if (timerEnabled) {
+                stopTimer();
+                startTimer();
+            }
+            elapsedTime = 0;
+        }
+
+        // Get the next word
+        function nextWord() {
+            if (filteredVocabulary.length === 0) {
+                gameArea.innerHTML = '<div class="word-display">No words available in this category</div>';
+                return;
+            }
+
+            // Reset game state for new word
+            showDefinition = false;
+            showHint = false;
+            userAnswer = '';
+            feedbackElement.textContent = '';
+            feedbackElement.className = 'feedback';
+            hintDisplay.textContent = '';
+
+            // Get next word based on order preference
+            if (wordOrder === 'sequential') {
+                if (currentWordIndex >= filteredVocabulary.length) {
+                    currentWordIndex = 0;
+                    showSessionSummary();
+                    return;
+                }
+                currentWord = filteredVocabulary[currentWordIndex];
+                currentWordIndex++;
+            } else {
+                // Random order - just get next word from shuffled array
+                if (currentWordIndex >= filteredVocabulary.length) {
+                    currentWordIndex = 0;
+                    // Reshuffle for a new round
+                    filteredVocabulary = shuffleArray([...filteredVocabulary]);
+                    showSessionSummary();
+                    return;
+                }
+                currentWord = filteredVocabulary[currentWordIndex];
+                currentWordIndex++;
+            }
+
+            wordsPracticed++;
+            wordsPracticedElement.textContent = wordsPracticed;
+
+            // Update progress bar
+            progressBar.style.width = `${(currentWordIndex / filteredVocabulary.length) * 100}%`;
+
+            // Add word to practice history
+            const practiceItem = {
+                word: currentWord.word,
+                definition: currentWord.definition,
+                category: currentWord.category,
+                timestamp: new Date().toISOString()
+            };
+            practiceHistory.push(practiceItem);
+            sessionHistory.push(practiceItem);
+
+            // Set up the game based on the current mode
+            switch (currentMode) {
+                case 'flashcard':
+                    setupFlashcardMode();
+                    break;
+                case 'multiple':
+                    setupMultipleChoiceMode();
+                    break;
+                case 'typing':
+                    setupTypingMode();
+                    break;
+                case 'matching':
+                    setupMatchingMode();
+                    break;
+            }
+
+            updateStats();
+            addDifficultyIndicator();
+            checkAchievements();
+        }
+
+        // Show session summary
+        function showSessionSummary() {
+            const correct = sessionHistory.filter(item => item.correct).length;
+            const wrong = sessionHistory.filter(item => !item.correct).length;
+            const accuracy = sessionHistory.length > 0 ? Math.round((correct / sessionHistory.length) * 100) : 0;
+            
+            summaryCorrect.textContent = correct;
+            summaryWrong.textContent = wrong;
+            summaryAccuracy.textContent = `${accuracy}%`;
+            summaryTime.textContent = formatTime(elapsedTime);
+            
+            // Populate word history
+            wordHistory.innerHTML = '';
+            sessionHistory.forEach(item => {
+                const historyItem = document.createElement('div');
+                historyItem.className = 'history-item';
+                historyItem.innerHTML = `
+                    <div>
+                        <span class="history-word">${item.word}</span>
+                        <span class="history-category">${item.category}</span>
+                    </div>
+                    <div>${item.correct ? '✓' : '✗'}</div>
+                `;
+                wordHistory.appendChild(historyItem);
+            });
+            
+            statsSummary.style.display = 'block';
+            
+            // Reset for next session
+            setTimeout(() => {
+                statsSummary.style.display = 'none';
+                nextWord();
+            }, 5000);
+        }
+
+        // Add difficulty indicator to game area
+        function addDifficultyIndicator() {
+            const difficultyMap = {
+                'beginner': 'beginner-difficulty',
+                'intermediate': 'intermediate-difficulty',
+                'advanced': 'advanced-difficulty',
+                'business': 'business-difficulty',
+                'academic': 'academic-difficulty'
+            };
+            
+            const difficultyClass = difficultyMap[currentWord.category] || '';
+            const difficultyText = currentWord.category.charAt(0).toUpperCase() + currentWord.category.slice(1);
+            
+            gameArea.innerHTML += `<div class="difficulty-indicator ${difficultyClass}">${difficultyText}</div>`;
+        }
+
+        // Set up flashcard mode
+        function setupFlashcardMode() {
+            gameArea.innerHTML = `
+                <div class="word-display fade-in">${currentWord.word}</div>
+                <div class="definition-display" style="display: ${showDefinition ? 'block' : 'none'}">
+                    ${currentWord.definition}
+                    ${currentWord.example ? `<div class="example-display">Example: ${currentWord.example}</div>` : ''}
+                </div>
+            `;
+            
+            const wordDisplay = gameArea.querySelector('.word-display');
+            const definitionDisplay = gameArea.querySelector('.definition-display');
+
+            // Click on word to show definition
+            wordDisplay.addEventListener('click', () => {
+                showDefinition = !showDefinition;
+                definitionDisplay.style.display = showDefinition ? 'block' : 'none';
+                
+                if (showDefinition && animationsEnabled) {
+                    definitionDisplay.classList.add('fade-in');
+                }
+            });
+        }
+
+        // Set up multiple choice mode
+        function setupMultipleChoiceMode() {
+            // Get 3 random incorrect options plus the correct one
+            const incorrectOptions = vocabulary
+                .filter(word => word.word !== currentWord.word && word.category === currentWord.category)
+                .sort(() => 0.5 - Math.random())
+                .slice(0, 3)
+                .map(word => word.definition);
+            
+            shuffledOptions = shuffleArray([...incorrectOptions, currentWord.definition]);
+            
+            gameArea.innerHTML = `
+                <div class="word-display fade-in">${currentWord.word}</div>
+                <div class="options-container" id="optionsContainer"></div>
+            `;
+            
+            const optionsContainer = document.getElementById('optionsContainer');
+            
+            shuffledOptions.forEach((option, index) => {
+                const optionBtn = document.createElement('div');
+                optionBtn.className = 'option-btn fade-in';
+                optionBtn.style.animationDelay = `${index * 0.1}s`;
+                optionBtn.textContent = option;
+                optionBtn.dataset.correct = option === currentWord.definition;
+                optionBtn.addEventListener('click', () => selectOption(optionBtn));
+                optionsContainer.appendChild(optionBtn);
+            });
+        }
+
+        // Handle option selection in multiple choice mode
+        function selectOption(selectedBtn) {
+            const isCorrect = selectedBtn.dataset.correct === 'true';
+            const options = document.querySelectorAll('.option-btn');
+            
+            options.forEach(option => {
+                option.classList.remove('correct', 'incorrect');
+                if (option.dataset.correct === 'true') {
+                    option.classList.add('correct');
+                    if (animationsEnabled) option.classList.add('pulse');
+                }
+                if (option === selectedBtn && !isCorrect) {
+                    option.classList.add('incorrect');
+                }
+                option.style.pointerEvents = 'none';
+            });
+            
+            if (isCorrect) {
+                correctCount++;
+                streakCount++;
+                feedbackElement.textContent = 'Correct! Well done!';
+                feedbackElement.className = 'feedback correct-feedback';
+                createConfetti();
+            } else {
+                wrongCount++;
+                streakCount = 0;
+                feedbackElement.textContent = 'Incorrect! Try again next time.';
+                feedbackElement.className = 'feedback incorrect-feedback';
+            }
+            
+            // Update session history
+            const currentPracticeItem = practiceHistory[practiceHistory.length - 1];
+            currentPracticeItem.correct = isCorrect;
+            currentPracticeItem.answeredAt = new Date().toISOString();
+            
+            updateStats();
+            
+            // Show example if available
+            if (currentWord.example) {
+                hintDisplay.innerHTML = `<strong>Example:</strong> ${currentWord.example}`;
+            }
+        }
+
+        // Create confetti effect
+        function createConfetti() {
+            if (!animationsEnabled) return;
+            
+            for (let i = 0; i < 50; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = `${Math.random() * 100}%`;
+                confetti.style.backgroundColor = getRandomColor();
+                confetti.style.opacity = '1';
+                confetti.style.transform = `rotate(${Math.random() * 360}deg)`;
+                document.body.appendChild(confetti);
+                
+                // Start animation
+                setTimeout(() => {
+                    confetti.classList.add('confetti-animation');
+                }, 10);
+                
+                // Remove after animation
+                setTimeout(() => {
+                    confetti.remove();
+                }, 3000);
+            }
+        }
+
+        // Get random color for confetti
+        function getRandomColor() {
+            const colors = ['#4361ee', '#4cc9f0', '#7209b7', '#f72585', '#4895ef', '#3f37c9', '#3a0ca3'];
+            return colors[Math.floor(Math.random() * colors.length)];
+        }
+
+        // Set up typing mode
+        function setupTypingMode() {
+            gameArea.innerHTML = `
+                <div class="definition-display fade-in">${currentWord.definition}</div>
+                <input type="text" class="input-answer" id="answerInput" placeholder="Type the word here..." autocomplete="off">
+                ${currentWord.example ? `<div class="hint-display"><strong>Example:</strong> ${currentWord.example}</div>` : ''}
+            `;
+            
+            const answerInput = document.getElementById('answerInput');
+            answerInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    checkAnswer();
+                }
+            });
+            
+            // Focus the input field
+            setTimeout(() => {
+                answerInput.focus();
+            }, 100);
+        }
+
+        // Check answer in typing mode
+        function checkAnswer() {
+            const answerInput = document.getElementById('answerInput');
+            userAnswer = answerInput.value.trim().toLowerCase();
+            const isCorrect = userAnswer === currentWord.word.toLowerCase();
+            
+            if (isCorrect) {
+                correctCount++;
+                streakCount++;
+                feedbackElement.textContent = 'Correct! Excellent work!';
+                feedbackElement.className = 'feedback correct-feedback';
+                if (animationsEnabled) {
+                    feedbackElement.classList.add('pulse');
+                    createConfetti();
+                }
+            } else {
+                wrongCount++;
+                streakCount = 0;
+                feedbackElement.textContent = `Incorrect! The correct answer is "${currentWord.word}".`;
+                feedbackElement.className = 'feedback incorrect-feedback';
+            }
+            
+            // Update session history
+            const currentPracticeItem = practiceHistory[practiceHistory.length - 1];
+            currentPracticeItem.correct = isCorrect;
+            currentPracticeItem.answeredAt = new Date().toISOString();
+            
+            answerInput.disabled = true;
+            updateStats();
+        }
+
+        // Set up matching mode (word to definition)
+        function setupMatchingMode() {
+            // Get 3 random words from the same category plus the current one
+            const otherWords = vocabulary
+                .filter(word => word.word !== currentWord.word && word.category === currentWord.category)
+                .sort(() => 0.5 - Math.random())
+                .slice(0, 3);
+            
+            const allWords = shuffleArray([...otherWords, currentWord]);
+            const allDefinitions = shuffleArray(allWords.map(word => word.definition));
+            
+            gameArea.innerHTML = `
+                <div class="match-container">
+                    <div class="match-column">
+                        <div class="match-title">Words</div>
+                        <div class="options-container" id="wordsContainer"></div>
+                    </div>
+                    <div class="match-column">
+                        <div class="match-title">Definitions</div>
+                        <div class="options-container" id="definitionsContainer"></div>
+                    </div>
+                </div>
+                <div class="matches-made" id="matchesContainer"></div>
+            `;
+            
+            const wordsContainer = document.getElementById('wordsContainer');
+            const definitionsContainer = document.getElementById('definitionsContainer');
+            
+            allWords.forEach((word, index) => {
+                const wordBtn = document.createElement('div');
+                wordBtn.className = 'option-btn word-btn fade-in';
+                wordBtn.style.animationDelay = `${index * 0.1}s`;
+                wordBtn.textContent = word.word;
+                wordBtn.dataset.word = word.word;
+                wordBtn.dataset.definition = word.definition;
+                wordBtn.addEventListener('click', () => selectWord(wordBtn));
+                wordsContainer.appendChild(wordBtn);
+            });
+            
+            allDefinitions.forEach((def, index) => {
+                const defBtn = document.createElement('div');
+                defBtn.className = 'option-btn def-btn fade-in';
+                defBtn.style.animationDelay = `${index * 0.1 + 0.3}s`;
+                defBtn.textContent = def;
+                defBtn.dataset.definition = def;
+                defBtn.addEventListener('click', () => selectDefinition(defBtn));
+                definitionsContainer.appendChild(defBtn);
+            });
+        }
+
+        // Handle word selection in matching mode
+        function selectWord(wordBtn) {
+            const selectedWords = document.querySelectorAll('.word-btn.selected');
+            selectedWords.forEach(btn => btn.classList.remove('selected'));
+            
+            // Don't allow selection of already matched words
+            if (!wordBtn.classList.contains('correct')) {
+                wordBtn.classList.add('selected');
+            }
+        }
+
+        // Handle definition selection in matching mode
+        function selectDefinition(defBtn) {
+            const selectedDefinitions = document.querySelectorAll('.def-btn.selected');
+            selectedDefinitions.forEach(btn => btn.classList.remove('selected'));
+            
+            // Don't allow selection of already matched definitions
+            if (!defBtn.classList.contains('correct')) {
+                defBtn.classList.add('selected');
+                
+                const selectedWord = document.querySelector('.word-btn.selected');
+                if (selectedWord) {
+                    checkMatch(selectedWord, defBtn);
+                }
+            }
+        }
+
+        // Check if word and definition match
+        function checkMatch(wordBtn, defBtn) {
+            const word = wordBtn.dataset.word;
+            const definition = defBtn.dataset.definition;
+            
+            // Check if this word matches this definition
+            const isCorrect = wordBtn.dataset.definition === definition;
+            
+            if (isCorrect) {
+                // Correct match
+                wordBtn.classList.add('correct');
+                defBtn.classList.add('correct');
+                wordBtn.classList.remove('selected');
+                defBtn.classList.remove('selected');
+                
+                if (animationsEnabled) {
+                    wordBtn.classList.add('pulse');
+                    defBtn.classList.add('pulse');
+                }
+                
+                // Display the match
+                const matchesContainer = document.getElementById('matchesContainer');
+                const matchElement = document.createElement('div');
+                matchElement.className = 'match-item fade-in';
+                matchElement.innerHTML = `<strong>${word}</strong> = ${definition}`;
+                matchesContainer.appendChild(matchElement);
+                
+                // Check if all matches are correct (game over)
+                const unmatchedWords = document.querySelectorAll('.word-btn:not(.correct)');
+                if (unmatchedWords.length === 0) {
+                    correctCount++;
+                    streakCount++;
+                    feedbackElement.textContent = 'Perfect! All matches correct!';
+                    feedbackElement.className = 'feedback correct-feedback';
+                    if (animationsEnabled) {
+                        feedbackElement.classList.add('pulse');
+                        createConfetti();
+                    }
+                    updateStats();
+                    
+                    // Update session history
+                    const currentPracticeItem = practiceHistory[practiceHistory.length - 1];
+                    currentPracticeItem.correct = true;
+                    currentPracticeItem.answeredAt = new Date().toISOString();
+                    
+                    // Show example if available
+                    if (currentWord.example) {
+                        hintDisplay.innerHTML = `<strong>Example:</strong> ${currentWord.example}`;
+                    }
+                }
+            } else {
+                // Incorrect match
+                wordBtn.classList.add('incorrect');
+                defBtn.classList.add('incorrect');
+                wrongCount++;
+                streakCount = 0;
+                feedbackElement.textContent = 'Incorrect match! Try again.';
+                feedbackElement.className = 'feedback incorrect-feedback';
+                updateStats();
+                
+                // Update session history
+                const currentPracticeItem = practiceHistory[practiceHistory.length - 1];
+                currentPracticeItem.correct = false;
+                currentPracticeItem.answeredAt = new Date().toISOString();
+                
+                // Remove the incorrect class after a delay
+                setTimeout(() => {
+                    wordBtn.classList.remove('incorrect');
+                    defBtn.classList.remove('incorrect');
+                    wordBtn.classList.remove('selected');
+                    defBtn.classList.remove('selected');
+                }, 1000);
+            }
+        }
+
+        // Show hint
+        function showHintFunction() {
+            if (showHint) return;
+            
+            showHint = true;
+            
+            switch (currentMode) {
+                case 'flashcard':
+                    const definitionDisplay = gameArea.querySelector('.definition-display');
+                    definitionDisplay.style.display = 'block';
+                    showDefinition = true;
+                    if (animationsEnabled) definitionDisplay.classList.add('fade-in');
+                    break;
+                    
+                case 'multiple':
+                    const options = document.querySelectorAll('.option-btn');
+                    options.forEach(option => {
+                        if (option.dataset.correct === 'true') {
+                            option.style.border = '2px solid var(--primary-color)';
+                            if (animationsEnabled) option.classList.add('pulse');
+                        }
+                    });
+                    break;
+                    
+                case 'typing':
+                    const answerInput = document.getElementById('answerInput');
+                    answerInput.placeholder = `Starts with "${currentWord.word[0]}"... ${currentWord.word.length} letters`;
+                    hintDisplay.textContent = `Hint: The word starts with "${currentWord.word[0]}" and has ${currentWord.word.length} letters.`;
+                    break;
+                    
+                case 'matching':
+                    // Highlight correct matches that haven't been found yet
+                    const wordButtons = document.querySelectorAll('.word-btn:not(.correct)');
+                    wordButtons.forEach(btn => {
+                        if (btn.dataset.word === currentWord.word) {
+                            btn.style.border = '2px solid var(--primary-color)';
+                            if (animationsEnabled) btn.classList.add('pulse');
+                        }
+                    });
+                    
+                    const defButtons = document.querySelectorAll('.def-btn:not(.correct)');
+                    defButtons.forEach(btn => {
+                        if (btn.dataset.definition === currentWord.definition) {
+                            btn.style.border = '2px solid var(--primary-color)';
+                            if (animationsEnabled) btn.classList.add('pulse');
+                        }
+                    });
+                    break;
+            }
+        }
+
+        // Check for achievements
+        function checkAchievements() {
+            // Streak achievements
+            if (streakCount === 5 && !achievements.includes('streak5')) {
+                achievements.push('streak5');
+                showAchievement('5-Correct Streak!');
+            } else if (streakCount === 10 && !achievements.includes('streak10')) {
+                achievements.push('streak10');
+                showAchievement('10-Correct Streak!');
+            }
+            
+            // Category completion achievements
+            const categoryCounts = {};
+            practiceHistory.forEach(item => {
+                if (item.correct) {
+                    categoryCounts[item.category] = (categoryCounts[item.category] || 0) + 1;
+                }
+            });
+            
+            for (const category in categoryCounts) {
+                if (categoryCounts[category] >= 10 && !achievements.includes(`${category}10`)) {
+                    achievements.push(`${category}10`);
+                    showAchievement(`10 ${category} words mastered!`);
+                }
+            }
+        }
+
+        // Show achievement notification
+        function showAchievement(text) {
+            const achievement = document.createElement('div');
+            achievement.className = 'feedback correct-feedback fade-in';
+            achievement.style.position = 'fixed';
+            achievement.style.top = '20px';
+            achievement.style.left = '50%';
+            achievement.style.transform = 'translateX(-50%)';
+            achievement.style.zIndex = '1000';
+            achievement.style.padding = '15px 25px';
+            achievement.style.borderRadius = '8px';
+            achievement.style.boxShadow = '0 4px 12px rgba(0,0,0,0.15)';
+            achievement.textContent = `Achievement Unlocked: ${text}`;
+            
+            document.body.appendChild(achievement);
+            
+            setTimeout(() => {
+                achievement.classList.remove('fade-in');
+                achievement.classList.add('fade-out');
+                setTimeout(() => achievement.remove(), 500);
+            }, 3000);
+        }
+
+        // Update statistics display
+        function updateStats() {
+            correctCountElement.textContent = correctCount;
+            wrongCountElement.textContent = wrongCount;
+            streakCountElement.textContent = streakCount;
+            
+            // Add pulse animation to stats when updated
+            if (animationsEnabled) {
+                [correctCountElement, wrongCountElement, streakCountElement].forEach(el => {
+                    el.classList.add('pulse');
+                    setTimeout(() => el.classList.remove('pulse'), 500);
+                });
+            }
+        }
+
+        // Utility function to shuffle an array
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        // Initialize the game when the page loads
+        window.addEventListener('load', initGame);
+    </script>
+</body>
+</html>
